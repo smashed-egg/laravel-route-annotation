@@ -1,0 +1,8 @@
+/vendor
+.phpunit.result.cache
+npm-debug.log
+yarn-error.log
+/.idea
+/bin
+.env
+.editorconfig

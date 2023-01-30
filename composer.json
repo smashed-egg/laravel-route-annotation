@@ -1,0 +1,26 @@
+{
+    "name": "smashed-egg/route-annotation",
+    "description": "Adds support for Route Annotations in Laravel",
+    "require": {
+        "php": "^8.0",
+        "laravel/framework": "^9.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.6"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "SmashedEgg\\RouteAnnotation\\": "src/",
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tom Ellis"
+        }
+    ],
+    "config": {
+        "bin-dir": "bin"
+    }
+}
