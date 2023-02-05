@@ -1,6 +1,6 @@
 <?php
 
-namespace SmashedEgg\RouteAnnotation\Console;
+namespace SmashedEgg\LaravelRouteAnnotation\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;

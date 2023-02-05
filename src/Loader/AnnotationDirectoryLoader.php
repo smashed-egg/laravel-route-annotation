@@ -1,6 +1,6 @@
 <?php
 
-namespace SmashedEgg\RouteAnnotation\Loader;
+namespace SmashedEgg\LaravelRouteAnnotation\Loader;
 
 use Illuminate\Routing\RouteCollection;
 

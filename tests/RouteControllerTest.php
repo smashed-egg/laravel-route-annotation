@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests;
+namespace SmashedEgg\LaravelRouteAnnotation\Tests;
 
 use Illuminate\Foundation\Application;
-use SmashedEgg\RouteAnnotation\Route;
+use SmashedEgg\LaravelRouteAnnotation\Route;
 use Illuminate\Support\Facades\Route as RouteFacade;
-use SmashedEgg\RouteAnnotation\RouteAnnotationServiceProvider;
-use SmashedEgg\RouteAnnotation\Test\Controller\TestController;
+use SmashedEgg\LaravelRouteAnnotation\RouteAnnotationServiceProvider;
+use SmashedEgg\LaravelRouteAnnotation\Test\Controller\TestController;
 
 class RouteControllerTest extends TestCase
 {

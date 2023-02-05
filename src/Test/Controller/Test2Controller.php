@@ -1,9 +1,9 @@
 <?php
 
-namespace SmashedEgg\RouteAnnotation\Test\Controller;
+namespace SmashedEgg\LaravelRouteAnnotation\Test\Controller;
 
 use Illuminate\Routing\Controller;
-use SmashedEgg\RouteAnnotation\Route;
+use SmashedEgg\LaravelRouteAnnotation\Route;
 
 #[Route('/test2', name: 'test2.')]
 class Test2Controller extends Controller

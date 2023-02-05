@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace SmashedEgg\LaravelRouteAnnotation\Tests;
 
 use Orchestra\Testbench\TestCase as BaseTestCase;
 

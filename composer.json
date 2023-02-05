@@ -2,17 +2,25 @@
     "name": "smashed-egg/route-annotation",
     "description": "Adds support for Route Annotations in Laravel",
     "require": {
-        "php": "^8.0",
-        "laravel/framework": "^9.0"
+        "php": "^8.0.2",
+        "illuminate/console": "^9.21|^10.0",
+        "illuminate/contracts": "^9.21|^10.0",
+        "illuminate/support": "^9.21|^10.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^7.6"
+        "orchestra/testbench": "^7.6|^8.0",
+        "phpunit/phpunit": "^9.5"
+
     },
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "SmashedEgg\\RouteAnnotation\\": "src/",
-            "Tests\\": "tests/"
+            "SmashedEgg\\LaravelRouteAnnotation\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SmashedEgg\\LaravelRouteAnnotation\\Tests\\": "tests/"
         }
     },
     "authors": [
@@ -21,6 +29,14 @@
         }
     ],
     "config": {
-        "bin-dir": "bin"
-    }
+        "bin-dir": "bin",
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

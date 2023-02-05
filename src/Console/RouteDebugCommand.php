@@ -1,6 +1,6 @@
 <?php
 
-namespace SmashedEgg\RouteAnnotation\Console;
+namespace SmashedEgg\LaravelRouteAnnotation\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class RouteDebugCommand extends Command
         $routes = $this->router->getRoutes();
         $routes->refreshNameLookups();
         $route = $routes->getByName($this->argument('name'));
-        dd($route ? $route->getName() : null);
+        //dd($route ? $route->getName() : null);
 
         //$routes = $this->router->getRoutes()->getByName($this->argument('name'));
         //dd($this->router->getRoutes()->to);

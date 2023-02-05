@@ -1,6 +1,6 @@
 <?php
 
-namespace SmashedEgg\RouteAnnotation;
+namespace SmashedEgg\LaravelRouteAnnotation;
 
 /**
  * Annotation class for @Route().

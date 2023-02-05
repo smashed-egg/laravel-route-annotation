@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests;
+namespace SmashedEgg\LaravelRouteAnnotation\Tests;
 
-use SmashedEgg\RouteAnnotation\Route;
+use SmashedEgg\LaravelRouteAnnotation\Route;
 
 class RouteTest extends TestCase
 {

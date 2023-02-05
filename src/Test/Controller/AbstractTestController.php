@@ -1,9 +1,9 @@
 <?php
 
-namespace SmashedEgg\RouteAnnotation\Test\Controller;
+namespace SmashedEgg\LaravelRouteAnnotation\Test\Controller;
 
 use Illuminate\Routing\Controller;
-use SmashedEgg\RouteAnnotation\Route;
+use SmashedEgg\LaravelRouteAnnotation\Route;
 
 #[Route('/test', name: 'test.')]
 abstract class AbstractTestController extends Controller

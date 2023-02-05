@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests;
+namespace SmashedEgg\LaravelRouteAnnotation\Tests;
 
-use SmashedEgg\RouteAnnotation\Loader\AnnotationDirectoryLoader;
+use SmashedEgg\LaravelRouteAnnotation\Loader\AnnotationDirectoryLoader;
 
 class DirectoryLoaderTest extends TestCase
 {

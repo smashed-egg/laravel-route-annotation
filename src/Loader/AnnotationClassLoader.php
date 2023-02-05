@@ -1,6 +1,6 @@
 <?php
 
-namespace SmashedEgg\RouteAnnotation\Loader;
+namespace SmashedEgg\LaravelRouteAnnotation\Loader;
 
 use Illuminate\Routing\Route;
 use Illuminate\Routing\RouteCollection;
@@ -8,7 +8,7 @@ use InvalidArgumentException;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
-use SmashedEgg\RouteAnnotation\Route as RouteAnnotation;
+use SmashedEgg\LaravelRouteAnnotation\Route as RouteAnnotation;
 
 /**
  * AnnotationClassLoader loads routing information from annotations set

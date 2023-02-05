@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Console;
+namespace SmashedEgg\LaravelRouteAnnotation\Tests\Console;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Console\Application as ConsoleApplication;
 use Illuminate\Support\Facades\Route;
-use SmashedEgg\RouteAnnotation\Console\RouteMatchCommand;
-use SmashedEgg\RouteAnnotation\RouteAnnotationServiceProvider;
+use SmashedEgg\LaravelRouteAnnotation\Console\RouteMatchCommand;
+use SmashedEgg\LaravelRouteAnnotation\RouteAnnotationServiceProvider;
 use Symfony\Component\Console\Tester\CommandTester;
-use Tests\TestCase;
+use SmashedEgg\LaravelRouteAnnotation\Tests\TestCase;
 
 class RouteDebugCommandTest extends TestCase
 {

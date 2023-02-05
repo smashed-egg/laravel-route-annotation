@@ -1,13 +1,13 @@
 <?php
 
-namespace SmashedEgg\RouteAnnotation;
+namespace SmashedEgg\LaravelRouteAnnotation;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use SmashedEgg\RouteAnnotation\Console\RouteDebugCommand;
-use SmashedEgg\RouteAnnotation\Console\RouteMatchCommand;
-use SmashedEgg\RouteAnnotation\Loader\AnnotationDirectoryLoader;
-use SmashedEgg\RouteAnnotation\Loader\AnnotationClassLoader;
+use SmashedEgg\LaravelRouteAnnotation\Console\RouteDebugCommand;
+use SmashedEgg\LaravelRouteAnnotation\Console\RouteMatchCommand;
+use SmashedEgg\LaravelRouteAnnotation\Loader\AnnotationDirectoryLoader;
+use SmashedEgg\LaravelRouteAnnotation\Loader\AnnotationClassLoader;
 
 class RouteAnnotationServiceProvider extends ServiceProvider
 {
