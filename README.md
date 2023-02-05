@@ -13,4 +13,38 @@ More details to follow.
 * PHP 8.0.2+
 * Laravel 9.0+
 
-More details to follow
+## Installation
+
+To install this package please run:
+
+```
+composer require smashed-egg/laravel-route-annotation
+```
+## Usage
+
+## Registering Routes
+
+## Loading Routes
+
+### Loading routes from a single controller
+
+In your routes file or service provider you can add the following to load routes for a given controller class.
+
+```
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+
+
+Route::annotation(UserController::class);
+```
+
+### Loading routes from a directory
+
+In your routes file or service provider you can add the following to load routes for a given directory.
+
+```
+use Illuminate\Support\Facades\Route;
+
+
+Route::directory(__DIR__ . '/Controllers');
+```

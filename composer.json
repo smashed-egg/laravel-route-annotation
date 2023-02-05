@@ -1,5 +1,5 @@
 {
-    "name": "smashed-egg/route-annotation",
+    "name": "smashed-egg/laravel-route-annotation",
     "description": "Adds support for Route Annotations in Laravel",
     "require": {
         "php": "^8.0.2",

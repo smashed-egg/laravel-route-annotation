@@ -2,6 +2,7 @@
 
 namespace SmashedEgg\LaravelRouteAnnotation;
 
+use Illuminate\Routing\RouteCollection;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use SmashedEgg\LaravelRouteAnnotation\Console\RouteDebugCommand;
@@ -23,28 +24,18 @@ class RouteAnnotationServiceProvider extends ServiceProvider
             RouteDebugCommand::class,
         ]);
 
-        Route::macro('annotation', function($controller) {
-            $loader = app()->make(AnnotationClassLoader::class);
-            $collection = $loader->load($controller);
-            /**
-             * @var string $name
-             * @var Route $route
-             */
-            foreach ($collection as $route) {
-                Route::getRoutes()->add($route);
-            }
+        $self = $this;
+
+        Route::macro('annotation', function($controller) use ($self) {
+            $self->registerRoutes(
+                app()->make(AnnotationClassLoader::class)->load($controller)
+            );
         });
 
-        Route::macro('directory', function($directory) {
-            $loader = app()->make(AnnotationDirectoryLoader::class);
-            $collection = $loader->load($directory);
-            /**
-             * @var string $name
-             * @var Route $route
-             */
-            foreach ($collection as $route) {
-                Route::getRoutes()->add($route);
-            }
+        Route::macro('directory', function($directory) use ($self) {
+            $self->registerRoutes(
+                app()->make(AnnotationDirectoryLoader::class)->load($directory)
+            );
         });
     }
 
@@ -65,5 +56,13 @@ class RouteAnnotationServiceProvider extends ServiceProvider
         $this->app->singleton(RouteDebugCommand::class, function() {
             return new RouteDebugCommand(app()->make('router'));
         });
+    }
+
+    public function registerRoutes(RouteCollection $routeCollection)
+    {
+        /** @var Route $route */
+        foreach ($routeCollection as $route) {
+            Route::getRoutes()->add($route);
+        }
     }
 }
