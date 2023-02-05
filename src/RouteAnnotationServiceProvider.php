@@ -24,19 +24,9 @@ class RouteAnnotationServiceProvider extends ServiceProvider
             RouteDebugCommand::class,
         ]);
 
-        $self = $this;
+        Route::macro('annotation', [$this, 'loadRoutesFromController']);
 
-        Route::macro('annotation', function($controller) use ($self) {
-            $self->registerRoutes(
-                app()->make(AnnotationClassLoader::class)->load($controller)
-            );
-        });
-
-        Route::macro('directory', function($directory) use ($self) {
-            $self->registerRoutes(
-                app()->make(AnnotationDirectoryLoader::class)->load($directory)
-            );
-        });
+        Route::macro('directory', [$this, 'loadRoutesFromDirectory']);
     }
 
     public function register()
@@ -58,11 +48,31 @@ class RouteAnnotationServiceProvider extends ServiceProvider
         });
     }
 
+    public function loadRoutesFromController(mixed $controller)
+    {
+        $this->registerRoutes($this->getAnnotationClassLoader()->load($controller));
+    }
+
+    public function loadRoutesFromDirectory(mixed $directory)
+    {
+        $this->registerRoutes($this->getAnnotationDirectoryLoader()->load($directory));
+    }
+
     public function registerRoutes(RouteCollection $routeCollection)
     {
         /** @var Route $route */
         foreach ($routeCollection as $route) {
             Route::getRoutes()->add($route);
         }
+    }
+
+    protected function getAnnotationClassLoader(): AnnotationClassLoader
+    {
+        return app()->make(AnnotationClassLoader::class);
+    }
+
+    protected function getAnnotationDirectoryLoader(): AnnotationDirectoryLoader
+    {
+        return app()->make(AnnotationDirectoryLoader::class);
     }
 }
