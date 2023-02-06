@@ -30,7 +30,9 @@ composer require smashed-egg/laravel-route-annotation
 
 In your routes file or service provider you can add the following to load routes for a given controller class.
 
-```
+```php
+<?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
@@ -42,7 +44,8 @@ Route::annotation(UserController::class);
 
 In your routes file or service provider you can add the following to load routes for a given directory.
 
-```
+```php
+<?php
 use Illuminate\Support\Facades\Route;
 
 
