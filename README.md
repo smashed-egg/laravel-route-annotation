@@ -24,6 +24,61 @@ composer require smashed-egg/laravel-route-annotation
 
 ## Registering Routes
 
+To register routes in your controller, first you have to import the Route annotation class:
+
+```php
+<?php
+
+use SmashedEgg\LaravelRouteAnnotation\Route;
+
+```
+
+The Route annotation class takes the following arguments:
+
+- string|null $uri
+- string|null $name
+- string|null $domain
+- array $schemes
+- array $defaults
+- array $methods
+- array $middleware 
+- array $wheres
+
+
+Here is an example controller using Route annotations:
+
+```php
+<?php
+
+namespace SmashedEgg\LaravelRouteAnnotation\Test\Controller;
+
+use Illuminate\Routing\Controller;
+use SmashedEgg\LaravelRouteAnnotation\Route;
+
+#[Route('/users', name: 'users.')]
+class UserController extends Controller
+{
+    #[Route('/', name: 'home', methods: ['GET', 'POST'])]
+    public function home()
+    {
+        return response()->make('users.home');
+    }
+
+    #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
+    public function create()
+    {
+        return response()->make('users.create');
+    }
+
+    #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'], wheres: ['id' => '[0-9]+'])]
+    public function edit($id)
+    {
+        return response()->make('users.edit');
+    }
+}
+
+```
+
 ## Loading Routes
 
 ### Loading routes from a single controller
