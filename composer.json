@@ -35,6 +35,11 @@
     "extra": {
         "branch-alias": {
             "dev-master": "1.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "SmashedEgg\\LaravelRouteAnnotation\\RouteAnnotationServiceProvider"
+            ]
         }
     },
     "minimum-stability": "dev",

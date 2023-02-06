@@ -3,6 +3,7 @@
 namespace SmashedEgg\LaravelRouteAnnotation;
 
 use Illuminate\Routing\RouteCollection;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use SmashedEgg\LaravelRouteAnnotation\Loader\AnnotationDirectoryLoader;
@@ -41,8 +42,19 @@ class RouteAnnotationServiceProvider extends ServiceProvider
     {
         /** @var Route $route */
         foreach ($routeCollection as $route) {
-            Route::getRoutes()->add($route);
+
+            $route
+                ->setRouter($this->getRouter())
+                ->setContainer($this->app)
+            ;
+
+            $this->getRouter()->getRoutes()->add($route);
         }
+    }
+
+    protected function getRouter(): Router
+    {
+        return $this->app->make('router');
     }
 
     protected function getAnnotationClassLoader(): AnnotationClassLoader
