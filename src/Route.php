@@ -17,11 +17,11 @@ class Route
         private ?string $uri = null,
         private ?string $name = null,
         private ?string $domain = null,
+        private array $schemes = [],
+        private array $defaults = [],
         private array $methods = [],
         private array $middleware = [],
-        private array $wheres = [],
-        private ?string $env = null,
-        //private ?string $prefix = null,
+        private array $wheres = []
     )
     {
 
@@ -52,6 +52,22 @@ class Route
     }
 
     /**
+     * @return array|string[]
+     */
+    public function getSchemes(): array
+    {
+        return $this->schemes;
+    }
+
+    /**
+     * @return array|string[]
+     */
+    public function getDefaults(): array
+    {
+        return $this->defaults;
+    }
+
+    /**
      * @return array
      */
     public function getMiddleware(): array
@@ -65,14 +81,6 @@ class Route
     public function getWheres(): array
     {
         return $this->wheres;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getEnv(): ?string
-    {
-        return $this->env;
     }
 
     /**

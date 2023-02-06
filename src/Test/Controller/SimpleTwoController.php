@@ -5,8 +5,8 @@ namespace SmashedEgg\LaravelRouteAnnotation\Test\Controller;
 use Illuminate\Routing\Controller;
 use SmashedEgg\LaravelRouteAnnotation\Route;
 
-#[Route('/test', name: 'test.')]
-class TestController extends Controller
+#[Route('/simple2', name: 'simple2.')]
+class SimpleTwoController extends Controller
 {
     #[Route('/', name: 'home', methods: ['GET', 'POST'])]
     public function home()

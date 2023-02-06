@@ -6,7 +6,7 @@ use Illuminate\Foundation\Application;
 use SmashedEgg\LaravelRouteAnnotation\Route;
 use Illuminate\Support\Facades\Route as RouteFacade;
 use SmashedEgg\LaravelRouteAnnotation\RouteAnnotationServiceProvider;
-use SmashedEgg\LaravelRouteAnnotation\Test\Controller\TestController;
+use SmashedEgg\LaravelRouteAnnotation\Test\Controller\SimpleController;
 
 class RouteControllerTest extends TestCase
 {
@@ -38,18 +38,20 @@ class RouteControllerTest extends TestCase
 
     }
 
-    public function test_route_class()
+    public function testAnnotationMacroLoadsRoutesCorrectly()
     {
         // Tell Laravel to load controller routes
-        RouteFacade::annotation(TestController::class);
+        RouteFacade::annotation(SimpleController::class);
 
         // Get routes loaded into Laravel
         $routes = RouteFacade::getRoutes()->getRoutesByName();
 
-        $this->assertCount(2, $routes);
+        $this->assertCount(4, $routes);
 
-        $this->assertArrayHasKey('test.home', $routes);
-        $this->assertArrayHasKey('test.list', $routes);
+        $this->assertArrayHasKey('simple.home', $routes);
+        $this->assertArrayHasKey('simple.list', $routes);
+        $this->assertArrayHasKey('simple.create', $routes);
+        $this->assertArrayHasKey('simple.edit', $routes);
     }
 
 

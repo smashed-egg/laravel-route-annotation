@@ -8,6 +8,8 @@ use Illuminate\Routing\RouteCollection;
  * AnnotationDirectoryLoader loads routing information from annotations set
  * on PHP classes and methods via PHP Attributes
  *
+ * @author Tom Ellis <tellishtc@gmail.com>
+ *
  * Based on the Route Annotation loading From Symfony
  *
  * @author Fabien Potencier <fabien@symfony.com>

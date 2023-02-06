@@ -13,10 +13,4 @@ abstract class AbstractTestController extends Controller
     {
         return response()->make('home');
     }
-
-    #[Route('/list', name: 'list', methods: ['GET', 'POST'])]
-    public function list()
-    {
-        return response()->make('list');
-    }
 }
