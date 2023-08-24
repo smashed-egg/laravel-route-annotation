@@ -64,7 +64,6 @@ class AnnotationClassLoader
             foreach ($pendingResourceRegistration->register() as $route) {
                 $collection->add($route);
             }
-
         }
 
         if (isset($globals['api']) && true === $globals['api']) {
@@ -75,7 +74,6 @@ class AnnotationClassLoader
             foreach ($pendingResourceRegistration->register() as $route) {
                 $collection->add($route);
             }
-
         }
 
         foreach ($class->getMethods() as $method) {
