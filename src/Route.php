@@ -24,10 +24,10 @@ class Route
         private array $wheres = [],
         private array $options = [],
         private bool $resource = false,
-        private bool $api = false
+        private bool $api = false,
+        private bool $singleton = false
     )
     {
-
     }
 
     /**
@@ -95,6 +95,14 @@ class Route
     }
 
     /**
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    /**
      * @return bool
      */
     public function isResource(): bool
@@ -111,10 +119,10 @@ class Route
     }
 
     /**
-     * @return array
+     * @return bool
      */
-    public function getOptions(): array
+    public function isSingleton(): bool
     {
-        return $this->options;
+        return $this->singleton;
     }
 }

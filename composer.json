@@ -3,9 +3,9 @@
     "description": "Adds support for Route Annotations in Laravel",
     "require": {
         "php": "^8.0.2",
-        "illuminate/console": "^9.21|^10.0",
-        "illuminate/contracts": "^9.21|^10.0",
-        "illuminate/support": "^9.21|^10.0"
+        "illuminate/console": "^9.42|^10.0",
+        "illuminate/contracts": "^9.42|^10.0",
+        "illuminate/support": "^9.42|^10.0"
     },
     "require-dev": {
         "orchestra/testbench": "^7.6|^8.0",

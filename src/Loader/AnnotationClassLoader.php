@@ -10,7 +10,6 @@ use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
 use SmashedEgg\LaravelRouteAnnotation\Route as RouteAnnotation;
-use SmashedEgg\LaravelRouteAnnotation\Test\Controller\ResourceController;
 
 /**
  * AnnotationClassLoader loads routing information from annotations set
@@ -55,10 +54,21 @@ class AnnotationClassLoader
 
         $collection = new RouteCollection();
 
+        foreach ($class->getMethods() as $method) {
+            $this->defaultRouteIndex = 0;
+            foreach ($this->getAnnotations($method) as $annot) {
+                $this->addRoute($collection, $annot, $globals, $class, $method);
+            }
+        }
+
         // If it's a resource controller
         if (isset($globals['resource']) && true === $globals['resource']) {
 
-            $pendingResourceRegistration = $this->router->resource($globals['name'], $globals['controller'], $globals['options']);
+            if (true === $globals['singleton']) {
+                $pendingResourceRegistration = $this->router->singleton($globals['name'], $globals['controller'], $globals['options']);
+            } else {
+                $pendingResourceRegistration = $this->router->resource($globals['name'], $globals['controller'], $globals['options']);
+            }
 
             /** @var Route $route */
             foreach ($pendingResourceRegistration->register() as $route) {
@@ -73,13 +83,6 @@ class AnnotationClassLoader
             /** @var Route $route */
             foreach ($pendingResourceRegistration->register() as $route) {
                 $collection->add($route);
-            }
-        }
-
-        foreach ($class->getMethods() as $method) {
-            $this->defaultRouteIndex = 0;
-            foreach ($this->getAnnotations($method) as $annot) {
-                $this->addRoute($collection, $annot, $globals, $class, $method);
             }
         }
 
@@ -113,7 +116,9 @@ class AnnotationClassLoader
             $name = $this->getDefaultRouteName($class, $method);
         }
 
-        $name = $globals['name'].$name;
+        if ($globals['name']) {
+            $name = rtrim($globals['name'], '.') . '.' .$name;
+        }
 
         $schemes = array_merge($globals['schemes'], $annot->getSchemes());
         $defaults = array_replace($globals['defaults'], $annot->getDefaults());
@@ -207,6 +212,10 @@ class AnnotationClassLoader
                 $globals['resource'] = $annot->isResource();
             }
 
+            if (null !== $annot->isSingleton()) {
+                $globals['singleton'] = $annot->isSingleton();
+            }
+
             if (null !== $annot->isApi()) {
                 $globals['api'] = $annot->isApi();
             }
@@ -231,6 +240,7 @@ class AnnotationClassLoader
             'domain' => '',
             'name' => '',
             'resource' => false,
+            'singleton' => false,
             'api' => false,
             'options' => '',
             'controller' => '',

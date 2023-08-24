@@ -3,7 +3,7 @@
 namespace SmashedEgg\LaravelRouteAnnotation;
 
 /**
- * Annotation class for @ApiResourceRoute().
+ * Annotation class for @SingletonResourceRoute().
  *
  * @Annotation
  * @NamedArgumentConstructor
@@ -11,7 +11,7 @@ namespace SmashedEgg\LaravelRouteAnnotation;
  *
  */
 #[\Attribute(\Attribute::IS_REPEATABLE | \Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
-class ApiResourceRoute extends Route
+class SingletonResourceRoute extends Route
 {
     public function __construct(
         private ?string $name = null,
@@ -23,7 +23,8 @@ class ApiResourceRoute extends Route
             name: $name,
             middleware: $middleware,
             options: $options,
-            api: true
+            resource: true,
+            singleton: true
         );
     }
 }

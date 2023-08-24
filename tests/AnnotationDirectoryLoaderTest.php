@@ -15,7 +15,7 @@ class AnnotationDirectoryLoaderTest extends TestCase
         $routeCollection = $loader->load(__DIR__ . '/../src/Test/Controller');
         $routes = $routeCollection->getRoutesByName();
 
-        $this->assertCount(23, $routes);
+        $this->assertCount(28, $routes);
 
         $this->assertArrayHasKey('simple.home', $routes);
         $this->assertArrayHasKey('simple.list', $routes);
@@ -38,6 +38,13 @@ class AnnotationDirectoryLoaderTest extends TestCase
         $this->assertArrayHasKey('photos.destroy', $routes);
 
         $this->assertArrayHasKey('single', $routes);
+
+        $this->assertArrayHasKey('profile.show', $routes);
+        $this->assertArrayHasKey('profile.edit', $routes);
+        $this->assertArrayHasKey('profile.update', $routes);
+
+        $this->assertArrayHasKey('extra.index', $routes);
+        $this->assertArrayHasKey('extra.top', $routes);
     }
 
 }
