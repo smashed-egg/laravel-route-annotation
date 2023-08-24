@@ -21,16 +21,19 @@ class Route
         private array $defaults = [],
         private array $methods = [],
         private array $middleware = [],
-        private array $wheres = []
+        private array $wheres = [],
+        private array $options = [],
+        private bool $resource = false,
+        private bool $api = false
     )
     {
 
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUri(): string
+    public function getUri(): ?string
     {
         return $this->uri;
     }
@@ -91,4 +94,27 @@ class Route
         return $this->domain;
     }
 
+    /**
+     * @return bool
+     */
+    public function isResource(): bool
+    {
+        return $this->resource;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApi(): bool
+    {
+        return $this->api;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
 }

@@ -2,17 +2,20 @@
 
 namespace SmashedEgg\LaravelRouteAnnotation\Tests;
 
+use Illuminate\Routing\Router;
 use SmashedEgg\LaravelRouteAnnotation\Loader\AnnotationDirectoryLoader;
 
 class AnnotationDirectoryLoaderTest extends TestCase
 {
     public function testDirectoryLoaderLoadsRoutesFromDirectoryCorrectly()
     {
-        $loader = new AnnotationDirectoryLoader();
+        $loader = new AnnotationDirectoryLoader(
+            router: app(Router::class)
+        );
         $routeCollection = $loader->load(__DIR__ . '/../src/Test/Controller');
         $routes = $routeCollection->getRoutesByName();
 
-        $this->assertCount(10, $routes);
+        $this->assertCount(22, $routes);
 
         $this->assertArrayHasKey('simple.home', $routes);
         $this->assertArrayHasKey('simple.list', $routes);
@@ -26,6 +29,13 @@ class AnnotationDirectoryLoaderTest extends TestCase
         $this->assertArrayHasKey('complex.list', $routes);
         $this->assertArrayHasKey('complex.create', $routes);
         $this->assertArrayHasKey('complex.edit', $routes);
+
+        $this->assertArrayHasKey('photos.index', $routes);
+        $this->assertArrayHasKey('photos.create', $routes);
+        $this->assertArrayHasKey('photos.store', $routes);
+        $this->assertArrayHasKey('photos.edit', $routes);
+        $this->assertArrayHasKey('photos.update', $routes);
+        $this->assertArrayHasKey('photos.destroy', $routes);
     }
 
 }

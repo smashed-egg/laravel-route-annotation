@@ -46,7 +46,8 @@ class DirectoryMacroTest extends TestCase
         // Get routes loaded into Laravel
         $routes = RouteFacade::getRoutes()->getRoutesByName();
 
-        $this->assertCount(10, $routes);
+        //$this->assertCount(10, $routes);
+        $this->assertCount(22, $routes);
 
         $this->assertArrayHasKey('simple.home', $routes);
         $this->assertArrayHasKey('simple.list', $routes);
@@ -60,6 +61,19 @@ class DirectoryMacroTest extends TestCase
         $this->assertArrayHasKey('complex.list', $routes);
         $this->assertArrayHasKey('complex.create', $routes);
         $this->assertArrayHasKey('complex.edit', $routes);
+
+        $this->assertArrayHasKey('photos.index', $routes);
+        $this->assertArrayHasKey('photos.create', $routes);
+        $this->assertArrayHasKey('photos.store', $routes);
+        $this->assertArrayHasKey('photos.edit', $routes);
+        $this->assertArrayHasKey('photos.update', $routes);
+        $this->assertArrayHasKey('photos.destroy', $routes);
+
+        $this->assertArrayHasKey('reports.player.index', $routes);
+        $this->assertArrayHasKey('reports.player.store', $routes);
+        $this->assertArrayHasKey('reports.player.show', $routes);
+        $this->assertArrayHasKey('reports.player.update', $routes);
+        $this->assertArrayHasKey('reports.player.destroy', $routes);
     }
 
 

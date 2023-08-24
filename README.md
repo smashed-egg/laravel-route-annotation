@@ -50,7 +50,7 @@ Here is an example controller using Route annotations:
 ```php
 <?php
 
-namespace SmashedEgg\LaravelRouteAnnotation\Test\Controller;
+namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use SmashedEgg\LaravelRouteAnnotation\Route;
@@ -74,6 +74,85 @@ class UserController extends Controller
     public function edit($id)
     {
         return response()->make('users.edit');
+    }
+}
+
+```
+
+### Resource Routes
+
+You can configure resource routes by doing the following:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Routing\Controller;
+use SmashedEgg\LaravelRouteAnnotation\ResourceRoute;
+
+#[ResourceRoute(name: 'photos')]
+class PhotoController extends Controller
+{
+    public function index()
+    {
+    }
+
+    public function create()
+    {
+    }
+
+    public function store()
+    {
+    }
+
+    public function edit($id)
+    {
+    }
+
+    public function update()
+    {
+    }
+
+    public function destroy()
+    {
+    }
+}
+```
+
+### Api Resource Routes
+
+You can configure api resource routes by doing the following:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Routing\Controller;
+use SmashedEgg\LaravelRouteAnnotation\ApiResourceRoute;
+
+#[ApiPhotoRoute(name: 'api.photos')]
+class PhotoApiController extends Controller
+{
+    public function index()
+    {
+    }
+
+    public function show()
+    {
+    }
+
+    public function store()
+    {
+    }
+
+    public function update()
+    {
+    }
+
+    public function destroy()
+    {
     }
 }
 

@@ -2,6 +2,7 @@
 
 namespace SmashedEgg\LaravelRouteAnnotation\Tests;
 
+use Illuminate\Routing\Router;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\AbstractTestController;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\ComplexController;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\SimpleController;
@@ -11,7 +12,9 @@ class AnnotationClassLoaderTest extends TestCase
 {
     public function testClassLoaderLoadsRoutesFromSimpleControllerCorrectly()
     {
-        $loader = new AnnotationClassLoader();
+        $loader = new AnnotationClassLoader(
+            router: $this->createMock(Router::class)
+        );
         $routeCollection = $loader->load(SimpleController::class);
         $routes = $routeCollection->getRoutesByName();
 
@@ -25,7 +28,9 @@ class AnnotationClassLoaderTest extends TestCase
 
     public function testClassLoaderLoadsRoutesFromComplexControllerCorrectly()
     {
-        $loader = new AnnotationClassLoader();
+        $loader = new AnnotationClassLoader(
+            router: $this->createMock(Router::class)
+        );
         $routeCollection = $loader->load(ComplexController::class);
         $routes = $routeCollection->getRoutesByName();
 
@@ -46,7 +51,10 @@ class AnnotationClassLoaderTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(sprintf('Annotations from class "%s" cannot be read as it is abstract.', AbstractTestController::class));
 
-        $loader = new AnnotationClassLoader('local');
+        $loader = new AnnotationClassLoader(
+            $this->createMock(Router::class),
+            'local'
+        );
         $loader->load(AbstractTestController::class);
     }
 

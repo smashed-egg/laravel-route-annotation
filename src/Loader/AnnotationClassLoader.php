@@ -4,11 +4,13 @@ namespace SmashedEgg\LaravelRouteAnnotation\Loader;
 
 use Illuminate\Routing\Route;
 use Illuminate\Routing\RouteCollection;
+use Illuminate\Routing\Router;
 use InvalidArgumentException;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
 use SmashedEgg\LaravelRouteAnnotation\Route as RouteAnnotation;
+use SmashedEgg\LaravelRouteAnnotation\Test\Controller\ResourceController;
 
 /**
  * AnnotationClassLoader loads routing information from annotations set
@@ -27,7 +29,10 @@ class AnnotationClassLoader
      */
     protected int $defaultRouteIndex = 0;
 
-    public function __construct(protected string $routeAnnotationClass = RouteAnnotation::class)
+    public function __construct(
+        protected Router $router,
+        protected string $routeAnnotationClass = RouteAnnotation::class
+    )
     {}
 
     /**
@@ -49,6 +54,29 @@ class AnnotationClassLoader
         $globals = $this->getGlobals($class);
 
         $collection = new RouteCollection();
+
+        // If it's a resource controller
+        if (isset($globals['resource']) && true === $globals['resource']) {
+
+            $pendingResourceRegistration = $this->router->resource($globals['name'], $globals['controller'], $globals['options']);
+
+            /** @var Route $route */
+            foreach ($pendingResourceRegistration->register() as $route) {
+                $collection->add($route);
+            }
+
+        }
+
+        if (isset($globals['api']) && true === $globals['api']) {
+
+            $pendingResourceRegistration = $this->router->apiResource($globals['name'], $globals['controller'], $globals['options']);
+
+            /** @var Route $route */
+            foreach ($pendingResourceRegistration->register() as $route) {
+                $collection->add($route);
+            }
+
+        }
 
         foreach ($class->getMethods() as $method) {
             $this->defaultRouteIndex = 0;
@@ -143,6 +171,8 @@ class AnnotationClassLoader
         }
 
         if ($annot) {
+            $globals['controller'] = $class->getName();
+
             if (null !== $annot->getName()) {
                 $globals['name'] = $annot->getName();
             }
@@ -174,6 +204,18 @@ class AnnotationClassLoader
             if (null !== $annot->getWheres()) {
                 $globals['wheres'] = $annot->getWheres();
             }
+
+            if (null !== $annot->isResource()) {
+                $globals['resource'] = $annot->isResource();
+            }
+
+            if (null !== $annot->isApi()) {
+                $globals['api'] = $annot->isApi();
+            }
+
+            if (null !== $annot->getOptions()) {
+                $globals['options'] = $annot->getOptions();
+            }
         }
 
         return $globals;
@@ -190,6 +232,10 @@ class AnnotationClassLoader
             'middleware' => [],
             'domain' => '',
             'name' => '',
+            'resource' => false,
+            'api' => false,
+            'options' => '',
+            'controller' => '',
         ];
     }
 
