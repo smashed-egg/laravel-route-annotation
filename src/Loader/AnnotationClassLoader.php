@@ -146,6 +146,22 @@ class AnnotationClassLoader
         $route->domain($domain);
         $route->setWheres($wheres);
 
+        if (true === $globals['scope_bindings']) {
+            $route->scopeBindings();
+        }
+
+        if (false === $globals['scope_bindings']) {
+            $route->withoutScopedBindings();
+        }
+
+        if ($annot->enforcesScopedBindings()) {
+            $route->scopeBindings();
+        }
+
+        if ($annot->preventsScopedBindings()) {
+            $route->withoutScopedBindings();
+        }
+
         $collection->add($route);
     }
 
@@ -256,6 +272,10 @@ class AnnotationClassLoader
 
             if (null !== $annot->getOptions()) {
                 $globals['options'] = $annot->getOptions();
+            }
+
+            if (null !== $annot->scopeBindings()) {
+                $globals['scope_bindings'] = $annot->scopeBindings();
             }
         }
 

@@ -54,6 +54,11 @@ class AnnotationMacroTest extends TestCase
         $this->assertArrayHasKey('simple.list', $routes);
         $this->assertArrayHasKey('simple.create', $routes);
         $this->assertArrayHasKey('simple.edit', $routes);
+
+        $this->assertTrue($routes['simple.home']->preventsScopedBindings());
+        $this->assertTrue($routes['simple.list']->preventsScopedBindings());
+        $this->assertTrue($routes['simple.create']->preventsScopedBindings());
+        $this->assertTrue($routes['simple.edit']->enforcesScopedBindings());
     }
 
     public function testAnnotationMacroLoadsResourceRoutesCorrectly()
@@ -93,7 +98,7 @@ class AnnotationMacroTest extends TestCase
 
     public function testAnnotationMacroLoadsRoutesCorrectlyInsideARouteGroup()
     {
-        RouteFacade::middleware('web')->prefix('/app')->as('app.')->group(function() {
+        RouteFacade::middleware('web')->scopeBindings()->prefix('/app')->as('app.')->group(function() {
             RouteFacade::annotation(SimpleController::class);
         });
 
@@ -117,6 +122,7 @@ class AnnotationMacroTest extends TestCase
         foreach ($routes as $name => $route) {
             $this->assertSame(['web'], $route->gatherMiddleware());
             $this->assertEquals($expectedUriMap[$name], $route->uri());
+            $this->assertTrue($route->enforcesScopedBindings());
         }
     }
 

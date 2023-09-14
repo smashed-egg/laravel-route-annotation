@@ -26,7 +26,7 @@ class SimpleController extends Controller
         return response()->make('create');
     }
 
-    #[Route('edit/{id}', name: 'edit')]
+    #[Route('edit/{id}', name: 'edit', scopeBindings: true)]
     public function edit($id)
     {
         return response()->make('edit');

@@ -25,7 +25,8 @@ class Route
         private array $options = [],
         private bool $resource = false,
         private bool $api = false,
-        private bool $singleton = false
+        private bool $singleton = false,
+        private ?bool $scopeBindings = null
     )
     {
     }
@@ -124,5 +125,23 @@ class Route
     public function isSingleton(): bool
     {
         return $this->singleton;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function scopeBindings()
+    {
+        return $this->scopeBindings;
+    }
+
+    public function enforcesScopedBindings(): bool
+    {
+        return true === $this->scopeBindings();
+    }
+
+    public function preventsScopedBindings(): bool
+    {
+        return false === $this->scopeBindings();
     }
 }
