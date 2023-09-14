@@ -3,14 +3,14 @@
 namespace SmashedEgg\LaravelRouteAnnotation\Tests;
 
 use Illuminate\Foundation\Application;
-use SmashedEgg\LaravelRouteAnnotation\Route;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route as RouteFacade;
 use SmashedEgg\LaravelRouteAnnotation\RouteAnnotationServiceProvider;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\ApiResourceController;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\ResourceController;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\SimpleController;
 
-class RouteControllerTest extends TestCase
+class AnnotationMacroTest extends TestCase
 {
     /**
      * Get package providers.
@@ -89,6 +89,35 @@ class RouteControllerTest extends TestCase
         $this->assertArrayHasKey('reports.player.show', $routes);
         $this->assertArrayHasKey('reports.player.update', $routes);
         $this->assertArrayHasKey('reports.player.destroy', $routes);
+    }
+
+    public function testAnnotationMacroLoadsRoutesCorrectlyInsideARouteGroup()
+    {
+        RouteFacade::middleware('web')->prefix('/app')->as('app.')->group(function() {
+            RouteFacade::annotation(SimpleController::class);
+        });
+
+        $expectedUriMap = [
+            'app.simple.home' => 'app/simple',
+            'app.simple.list' => 'app/simple/list',
+            'app.simple.create' => 'app/simple/create',
+            'app.simple.edit' => 'app/simple/edit/{id}',
+        ];
+
+        // Get routes loaded into Laravel
+        $routes = RouteFacade::getRoutes()->getRoutesByName();
+
+        $this->assertCount(4, $routes);
+
+        $this->assertArrayHasKey('app.simple.home', $routes);
+        $this->assertArrayHasKey('app.simple.list', $routes);
+        $this->assertArrayHasKey('app.simple.create', $routes);
+        $this->assertArrayHasKey('app.simple.edit', $routes);
+
+        foreach ($routes as $name => $route) {
+            $this->assertSame(['web'], $route->gatherMiddleware());
+            $this->assertEquals($expectedUriMap[$name], $route->uri());
+        }
     }
 
 }

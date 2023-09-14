@@ -138,7 +138,7 @@ class AnnotationClassLoader
 
         $uri = $annot->getUri();
         $prefix = $globals['uri'];
-        $path = $prefix.$uri;
+        $path = $prefix . '/' . ltrim($uri, '/');
 
         $route = $this->createRoute($path, $schemes, $methods, [$class->getName(), $method->getName()], $middleware);
         $route->setDefaults($defaults);
@@ -168,6 +168,40 @@ class AnnotationClassLoader
     {
         $globals = $this->resetGlobals();
 
+        $groupSettings = [];
+
+        // Are we wrapped in a Route::group
+        if ($groupStack = $this->router->getGroupStack()) {
+            $groupSettings = end($groupStack);
+        }
+
+        // Add group settings to global
+        if ($groupSettings) {
+            if (isset($groupSettings['middleware'])) {
+                $globals['middleware'] = $groupSettings['middleware'];
+            }
+
+            if (isset($groupSettings['namespace'])) {
+                $globals['namespace'] = $groupSettings['namespace'];
+            }
+
+            if (isset($groupSettings['as'])) {
+                $globals['name'] = $groupSettings['as'];
+            }
+
+            if (isset($groupSettings['prefix'])) {
+                $globals['uri'] = $groupSettings['prefix'];
+            }
+
+            if (isset($groupSettings['where'])) {
+                $globals['wheres'] = $groupSettings['where'];
+            }
+
+            if (isset($groupSettings['scope_bindings'])) {
+                $globals['scope_bindings'] = $groupSettings['scope_bindings'];
+            }
+        }
+
         $annot = null;
         if ($attribute = $class->getAttributes($this->routeAnnotationClass, ReflectionAttribute::IS_INSTANCEOF)[0] ?? null) {
             $annot = $attribute->newInstance();
@@ -177,35 +211,35 @@ class AnnotationClassLoader
             $globals['controller'] = $class->getName();
 
             if (null !== $annot->getName()) {
-                $globals['name'] = $annot->getName();
+                $globals['name'] = $globals['name'] . $annot->getName();
             }
 
             if (null !== $annot->getUri()) {
-                $globals['uri'] = $annot->getUri();
+                $globals['uri'] = $globals['uri'] . '/' . ltrim($annot->getUri(), '/');
             }
 
-            if (null !== $annot->getSchemes()) {
+            if ($annot->getSchemes()) {
                 $globals['schemes'] = $annot->getSchemes();
             }
 
-            if (null !== $annot->getDefaults()) {
+            if ($annot->getDefaults()) {
                 $globals['defaults'] = $annot->getDefaults();
             }
 
-            if (null !== $annot->getMethods()) {
+            if ($annot->getMethods()) {
                 $globals['methods'] = $annot->getMethods();
             }
 
-            if (null !== $annot->getDomain()) {
+            if ($annot->getDomain()) {
                 $globals['domain'] = $annot->getDomain();
             }
 
-            if (null !== $annot->getMiddleware()) {
-                $globals['middleware'] = $annot->getMiddleware();
+            if ($annot->getMiddleware()) {
+                $globals['middleware'] = array_merge($globals['middleware'], $annot->getMiddleware());
             }
 
-            if (null !== $annot->getWheres()) {
-                $globals['wheres'] = $annot->getWheres();
+            if ($annot->getWheres()) {
+                $globals['wheres'] = array_merge($globals['wheres'], $annot->getWheres());
             }
 
             if (null !== $annot->isResource()) {
@@ -244,6 +278,7 @@ class AnnotationClassLoader
             'api' => false,
             'options' => '',
             'controller' => '',
+            'scope_bindings' => false,
         ];
     }
 

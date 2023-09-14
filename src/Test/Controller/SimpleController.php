@@ -14,19 +14,19 @@ class SimpleController extends Controller
         return response()->make('home');
     }
 
-    #[Route('/list', name: 'list')]
+    #[Route('list', name: 'list')]
     public function list()
     {
         return response()->make('list');
     }
 
-    #[Route('/create', name: 'create')]
+    #[Route('create', name: 'create')]
     public function create()
     {
         return response()->make('create');
     }
 
-    #[Route('/edit/{id}', name: 'edit')]
+    #[Route('edit/{id}', name: 'edit')]
     public function edit($id)
     {
         return response()->make('edit');
