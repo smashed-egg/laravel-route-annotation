@@ -20,6 +20,16 @@ To install this package please run:
 ```
 composer require smashed-egg/laravel-route-annotation
 ```
+
+[Support Me](https://github.com/sponsors/tomgrohl)
+--------------------------------------------
+
+Do you like this package? Does it improve you're development. Consider sponsoring to help with future development.
+
+[Buy me a coffee!](https://github.com/sponsors/tomgrohl)
+
+Thank you!
+
 ## Usage
 
 ## Registering Routes
