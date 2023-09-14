@@ -2,6 +2,9 @@
 
 v0.X.0 - TBD
 
+v0.3.1
+- Scoped bindings now work as route group, controller and controller action level
+
 v0.3.0
 - Add support for singleton routes
 - Add support for use within Route groups

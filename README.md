@@ -190,8 +190,21 @@ In your routes file or service provider you can add the following to load routes
 
 ```php
 <?php
+
 use Illuminate\Support\Facades\Route;
 
 
 Route::directory(__DIR__ . '/Controllers');
+```
+
+You can also wrap them in route groups:
+
+```php
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+Route::middleware('web')->prefix('/app')->as('app.')->scopeBindings()->group(function() {
+    Route::directory(__DIR__ . '/Controllers');
+});
 ```
