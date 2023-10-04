@@ -3,6 +3,9 @@
 </p>
 
 # Laravel Route Annotation
+[![Latest Stable Version](https://poser.pugx.org/smashed-egg/laravel-route-annotation/v/stable)](https://github.com/smashed-egg/laravel-route-annotation/releases)
+[![Downloads this Month](https://img.shields.io/packagist/dm/smashed-egg/laravel-route-annotation.svg)](https://packagist.org/packages/smashed-egg/laravel-route-annotation)
+
 
 This package allows you to load routes using PHP Attributes to define routes in your controller classes.
 
