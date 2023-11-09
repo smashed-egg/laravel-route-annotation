@@ -1,14 +1,14 @@
 <?php
 
-namespace SmashedEgg\LaravelRouteAnnotation\Tests;
+namespace SmashedEgg\LaravelRouteAnnotation\Tests\Macro;
 
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route as RouteFacade;
 use SmashedEgg\LaravelRouteAnnotation\RouteAnnotationServiceProvider;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\ApiResourceController;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\ResourceController;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\SimpleController;
+use SmashedEgg\LaravelRouteAnnotation\Tests\TestCase;
 
 class AnnotationMacroTest extends TestCase
 {

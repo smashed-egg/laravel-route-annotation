@@ -26,6 +26,7 @@ class Route
         private bool $resource = false,
         private bool $api = false,
         private bool $singleton = false,
+        private int $priority = 0,
         private ?bool $scopeBindings = null
     )
     {
@@ -125,6 +126,14 @@ class Route
     public function isSingleton(): bool
     {
         return $this->singleton;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriority(): int
+    {
+        return $this->priority;
     }
 
     /**

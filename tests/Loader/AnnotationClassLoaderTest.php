@@ -1,12 +1,13 @@
 <?php
 
-namespace SmashedEgg\LaravelRouteAnnotation\Tests;
+namespace SmashedEgg\LaravelRouteAnnotation\Tests\Loader;
 
 use Illuminate\Routing\Router;
+use SmashedEgg\LaravelRouteAnnotation\Loader\AnnotationClassLoader;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\AbstractTestController;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\ComplexController;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\SimpleController;
-use SmashedEgg\LaravelRouteAnnotation\Loader\AnnotationClassLoader;
+use SmashedEgg\LaravelRouteAnnotation\Tests\TestCase;
 
 class AnnotationClassLoaderTest extends TestCase
 {

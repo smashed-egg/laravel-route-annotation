@@ -16,7 +16,8 @@ class RouteTest extends TestCase
             defaults: ['type' => 'all'],
             methods: ['GET', 'POST'],
             middleware: ['some_middleware'],
-            wheres: ['id' => '[.*]+']
+            wheres: ['id' => '[.*]+'],
+            priority: 10,
         );
 
         $this->assertEquals('/filter/{type}', $route->getUri());
@@ -27,6 +28,7 @@ class RouteTest extends TestCase
         $this->assertSame(['GET', 'POST'], $route->getMethods());
         $this->assertSame(['some_middleware'], $route->getMiddleware());
         $this->assertSame(['id' => '[.*]+'], $route->getWheres());
+        $this->assertEquals(10, $route->getPriority());
     }
 
 

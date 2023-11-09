@@ -2,13 +2,14 @@
 
 namespace SmashedEgg\LaravelRouteAnnotation\Loader;
 
-use Illuminate\Routing\Route;
-use Illuminate\Routing\RouteCollection;
-use Illuminate\Routing\Router;
-use InvalidArgumentException;
-use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionAttribute;
+use Illuminate\Routing\Route;
+use InvalidArgumentException;
+use Illuminate\Routing\Router;
+use Illuminate\Routing\RouteCollection;
+use SmashedEgg\LaravelRouteAnnotation\RouteCollection as PriorityRouteCollection;
 use SmashedEgg\LaravelRouteAnnotation\Route as RouteAnnotation;
 
 /**
@@ -52,7 +53,7 @@ class AnnotationClassLoader
 
         $globals = $this->getGlobals($class);
 
-        $collection = new RouteCollection();
+        $collection = new PriorityRouteCollection();
 
         foreach ($class->getMethods() as $method) {
             $this->defaultRouteIndex = 0;
@@ -72,7 +73,7 @@ class AnnotationClassLoader
 
             /** @var Route $route */
             foreach ($pendingResourceRegistration->register() as $route) {
-                $collection->add($route);
+                $collection->add($route->getName(), $route);
             }
         }
 
@@ -82,7 +83,7 @@ class AnnotationClassLoader
 
             /** @var Route $route */
             foreach ($pendingResourceRegistration->register() as $route) {
-                $collection->add($route);
+                $collection->add($route->getName(), $route);
             }
         }
 
@@ -93,18 +94,24 @@ class AnnotationClassLoader
             }
         }
 
-        return $collection;
+        $sortedCollection = new RouteCollection();
+
+        foreach ($collection->all() as $route) {
+            $sortedCollection->add($route);
+        }
+
+        return $sortedCollection;
     }
 
     /**
-     * @param RouteCollection $collection
+     * @param PriorityRouteCollection $collection
      * @param object $annot or an object that exposes a similar interface
      * @param array $globals
      * @param ReflectionClass $class
      * @param ReflectionMethod $method
      */
     protected function addRoute(
-        RouteCollection $collection,
+        PriorityRouteCollection $collection,
         object $annot,
         array $globals,
         ReflectionClass $class,
@@ -125,6 +132,7 @@ class AnnotationClassLoader
         $methods = array_merge($globals['methods'], $annot->getMethods());
         $middleware = array_merge($globals['middleware'], $annot->getMiddleware());
         $wheres = array_merge($globals['wheres'], $annot->getWheres());
+        $priority = $annot->getPriority();
 
         $domain = $annot->getDomain();
 
@@ -140,10 +148,28 @@ class AnnotationClassLoader
         $prefix = $globals['uri'];
         $path = $prefix . '/' . ltrim($uri, '/');
 
-        $route = $this->createRoute($path, $schemes, $methods, [$class->getName(), $method->getName()], $middleware);
-        $route->setDefaults($defaults);
+        $action = [
+            'uses' => [$class->getName(), $method->getName()],
+        ];
+
+        if ($schemes && in_array('https', $schemes)) {
+            $action[] = 'https';
+        }
+
+        if ($schemes && in_array('http', $schemes)) {
+            $action[] = 'http';
+        }
+
+        $route = new Route(
+            $methods,
+            $path,
+            $action
+        );
+
+        $route->middleware($middleware);
         $route->name($name);
         $route->domain($domain);
+        $route->setDefaults($defaults);
         $route->setWheres($wheres);
 
         if (true === $globals['scope_bindings']) {
@@ -162,7 +188,7 @@ class AnnotationClassLoader
             $route->withoutScopedBindings();
         }
 
-        $collection->add($route);
+        $collection->add($route->getName(), $route, $priority);
     }
 
     /**
@@ -298,27 +324,9 @@ class AnnotationClassLoader
             'api' => false,
             'options' => '',
             'controller' => '',
+            'priority' => 0,
             'scope_bindings' => false,
         ];
-    }
-
-    protected function createRoute(
-        string $uri,
-        array $schemes,
-        array $methods,
-               $action,
-        array $middleware
-    )
-    {
-        $route = new Route(
-            $methods,
-            $uri,
-            $action
-        );
-
-        $route->middleware($middleware);
-
-        return $route;
     }
 
     /**

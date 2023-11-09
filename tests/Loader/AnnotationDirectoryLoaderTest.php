@@ -1,9 +1,10 @@
 <?php
 
-namespace SmashedEgg\LaravelRouteAnnotation\Tests;
+namespace SmashedEgg\LaravelRouteAnnotation\Tests\Loader;
 
 use Illuminate\Routing\Router;
 use SmashedEgg\LaravelRouteAnnotation\Loader\AnnotationDirectoryLoader;
+use SmashedEgg\LaravelRouteAnnotation\Tests\TestCase;
 
 class AnnotationDirectoryLoaderTest extends TestCase
 {
@@ -12,7 +13,7 @@ class AnnotationDirectoryLoaderTest extends TestCase
         $loader = new AnnotationDirectoryLoader(
             router: app(Router::class)
         );
-        $routeCollection = $loader->load(__DIR__ . '/../src/Test/Controller');
+        $routeCollection = $loader->load(__DIR__ . '/../../src/Test/Controller');
         $routes = $routeCollection->getRoutesByName();
 
         $this->assertCount(28, $routes);

@@ -1,12 +1,11 @@
 <?php
 
-namespace SmashedEgg\LaravelRouteAnnotation\Tests;
+namespace SmashedEgg\LaravelRouteAnnotation\Tests\Macro;
 
 use Illuminate\Foundation\Application;
-use SmashedEgg\LaravelRouteAnnotation\Route;
 use Illuminate\Support\Facades\Route as RouteFacade;
 use SmashedEgg\LaravelRouteAnnotation\RouteAnnotationServiceProvider;
-use SmashedEgg\LaravelRouteAnnotation\Test\Controller\SimpleController;
+use SmashedEgg\LaravelRouteAnnotation\Tests\TestCase;
 
 class DirectoryMacroTest extends TestCase
 {
@@ -41,7 +40,7 @@ class DirectoryMacroTest extends TestCase
     public function testDirectoryMacroLoadsRoutesCorrectly()
     {
         // Tell Laravel to load controller routes
-        RouteFacade::directory(__DIR__ . '/../src/Test/Controller');
+        RouteFacade::directory(__DIR__ . '/../../src/Test/Controller');
 
         // Get routes loaded into Laravel
         $routes = RouteFacade::getRoutes()->getRoutesByName();

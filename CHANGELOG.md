@@ -2,6 +2,12 @@
 
 v0.X.0 - TBD
 
+
+v0.4.0
+- Add support for route priority (https://symfony.com/doc/current/routing.html#priority-parameter)
+- Tidied up tests
+- Tidied up AnnotationClassLoader logic
+
 v0.3.1
 - Scoped bindings now work as route group, controller and controller action level
 

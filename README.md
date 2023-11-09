@@ -56,6 +56,7 @@ The Route annotation class takes the following arguments:
 - array $methods
 - array $middleware 
 - array $wheres
+- int $priority (Set order of priority for routes, defaults to 0)
 
 
 Here is an example controller using Route annotations:
