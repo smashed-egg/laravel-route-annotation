@@ -149,7 +149,7 @@ class AnnotationClassLoader
         $path = $prefix . '/' . ltrim($uri, '/');
 
         $action = [
-            'uses' => [$class->getName(), $method->getName()],
+            'uses' => $class->getName() . '@' . $method->getName(),
         ];
 
         if ($schemes && in_array('https', $schemes)) {
