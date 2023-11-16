@@ -146,7 +146,7 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use SmashedEgg\LaravelRouteAnnotation\ApiResourceRoute;
 
-#[ApiPhotoRoute(name: 'api.photos')]
+#[ApiResourceRoute(name: 'api.photos')]
 class PhotoApiController extends Controller
 {
     public function index()
