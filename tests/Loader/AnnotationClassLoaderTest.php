@@ -2,6 +2,7 @@
 
 namespace SmashedEgg\LaravelRouteAnnotation\Tests\Loader;
 
+use Illuminate\Container\Container;
 use Illuminate\Routing\Router;
 use SmashedEgg\LaravelRouteAnnotation\Loader\AnnotationClassLoader;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\AbstractTestController;
@@ -14,7 +15,8 @@ class AnnotationClassLoaderTest extends TestCase
     public function testClassLoaderLoadsRoutesFromSimpleControllerCorrectly()
     {
         $loader = new AnnotationClassLoader(
-            router: $this->createMock(Router::class)
+            router: app(Router::class),
+            container: app(),
         );
         $routeCollection = $loader->load(SimpleController::class);
         $routes = $routeCollection->getRoutesByName();
@@ -30,7 +32,8 @@ class AnnotationClassLoaderTest extends TestCase
     public function testClassLoaderLoadsRoutesFromComplexControllerCorrectly()
     {
         $loader = new AnnotationClassLoader(
-            router: $this->createMock(Router::class)
+            router: app(Router::class),
+            container: app()
         );
         $routeCollection = $loader->load(ComplexController::class);
         $routes = $routeCollection->getRoutesByName();
@@ -49,12 +52,19 @@ class AnnotationClassLoaderTest extends TestCase
 
     public function testClassLoaderLoadsRoutesFailsOnAbstractControllerClass()
     {
+        $router = $this->createMock(Router::class);
+
+        $router->expects($this->never())
+            ->method('getRoutes')
+        ;
+
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(sprintf('Annotations from class "%s" cannot be read as it is abstract.', AbstractTestController::class));
 
         $loader = new AnnotationClassLoader(
-            $this->createMock(Router::class),
-            'local'
+            router: $router,
+            container: $this->createMock(Container::class),
+            routeAnnotationClass: 'local'
         );
         $loader->load(AbstractTestController::class);
     }

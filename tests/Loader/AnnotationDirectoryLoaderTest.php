@@ -11,8 +11,10 @@ class AnnotationDirectoryLoaderTest extends TestCase
     public function testDirectoryLoaderLoadsRoutesFromDirectoryCorrectly()
     {
         $loader = new AnnotationDirectoryLoader(
-            router: app(Router::class)
+            router: app(Router::class),
+            container: app()
         );
+
         $routeCollection = $loader->load(__DIR__ . '/../../src/Test/Controller');
         $routes = $routeCollection->getRoutesByName();
 

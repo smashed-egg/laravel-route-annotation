@@ -29,24 +29,26 @@ class RouteAnnotationServiceProvider extends ServiceProvider
     {
         $this->app->singleton(AnnotationClassLoader::class, function (Application $app) {
             return new AnnotationClassLoader(
-                router: $app->make('router')
+                router: $app->make('router'),
+                container: $app
             );
         });
         $this->app->singleton(AnnotationDirectoryLoader::class, function (Application $app) {
             return new AnnotationDirectoryLoader(
-                router: $app->make('router')
+                router: $app->make('router'),
+                container: $app
             );
         });
     }
 
     public function loadRoutesFromController(mixed $controller)
     {
-        $this->registerRoutes($this->getAnnotationClassLoader()->load($controller));
+        $this->getAnnotationClassLoader()->load($controller);
     }
 
     public function loadRoutesFromDirectory(mixed $directory)
     {
-        $this->registerRoutes($this->getAnnotationDirectoryLoader()->load($directory));
+        $this->getAnnotationDirectoryLoader()->load($directory);
     }
 
     public function registerRoutes(RouteCollection $routeCollection)

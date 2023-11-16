@@ -2,6 +2,7 @@
 
 namespace SmashedEgg\LaravelRouteAnnotation\Loader;
 
+use Illuminate\Container\Container;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionAttribute;
@@ -31,6 +32,7 @@ class AnnotationClassLoader
 
     public function __construct(
         protected Router $router,
+        protected Container $container,
         protected string $routeAnnotationClass = RouteAnnotation::class
     )
     {}
@@ -62,6 +64,13 @@ class AnnotationClassLoader
             }
         }
 
+        $sortedCollection = new RouteCollection();
+
+        foreach ($collection->all() as $route) {
+            $this->router->getRoutes()->add($route);
+            $sortedCollection->add($route);
+        }
+
         // If it's a resource controller
         if (isset($globals['resource']) && true === $globals['resource']) {
 
@@ -73,7 +82,7 @@ class AnnotationClassLoader
 
             /** @var Route $route */
             foreach ($pendingResourceRegistration->register() as $route) {
-                $collection->add($route->getName(), $route);
+                $sortedCollection->add($route);
             }
         }
 
@@ -83,7 +92,7 @@ class AnnotationClassLoader
 
             /** @var Route $route */
             foreach ($pendingResourceRegistration->register() as $route) {
-                $collection->add($route->getName(), $route);
+                $sortedCollection->add($route);
             }
         }
 
@@ -92,12 +101,11 @@ class AnnotationClassLoader
             foreach ($this->getAnnotations($class) as $annot) {
                 $this->addRoute($collection, $annot, $globals, $class, $class->getMethod('__invoke'));
             }
-        }
 
-        $sortedCollection = new RouteCollection();
-
-        foreach ($collection->all() as $route) {
-            $sortedCollection->add($route);
+            foreach ($collection->all() as $route) {
+                $this->router->getRoutes()->add($route);
+                $sortedCollection->add($route);
+            }
         }
 
         return $sortedCollection;
@@ -166,6 +174,8 @@ class AnnotationClassLoader
             $action
         );
 
+        $route->setRouter($this->router);
+        $route->setContainer($this->container);
         $route->middleware($middleware);
         $route->name($name);
         $route->domain($domain);
