@@ -16,6 +16,7 @@
     </coverage>
     <php>
         <env name="APP_ENV" value="testing"/>
+        <env name="FILESYSTEM_DISK" value="public"/>
         <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
 
     </php>

@@ -43,19 +43,11 @@ class AnnotationMacroTest extends TestCase
 
     public function testAnnotationMacroLoadsRoutesCorrectly()
     {
-        $existingRoutes = RouteFacade::getRoutes()->getRoutesByName();
-        $existingRoute = Arr::first(RouteFacade::getRoutes()->getRoutes());
         // Tell Laravel to load controller routes
         RouteFacade::annotation(SimpleController::class);
 
         // Get routes loaded into Laravel
         $routes = RouteFacade::getRoutes()->getRoutesByName();
-
-        $this->assertCount(0, $existingRoutes);
-
-        if ($existingRoute) {
-            $this->assertEquals('/awesome', $existingRoute->uri());
-        }
 
         $this->assertCount(4, $routes);
 

@@ -7,4 +7,4 @@ yarn-error.log
 /bin
 .env
 .editorconfig
-composer.lock
+/composer.lock

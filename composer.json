@@ -32,6 +32,9 @@
         "bin-dir": "bin",
         "sort-packages": true
     },
+    "scripts": {
+        "test": "bin/phpunit"
+    },
     "extra": {
         "branch-alias": {
             "dev-main": "1.x-dev"
