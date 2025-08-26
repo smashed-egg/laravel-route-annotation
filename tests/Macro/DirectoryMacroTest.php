@@ -39,13 +39,16 @@ class DirectoryMacroTest extends TestCase
 
     public function testDirectoryMacroLoadsRoutesCorrectly()
     {
+        // We have to count existing routes as a storage route it added in Laravel 12
+        $existingRouteCount = $this->countExistingRoutes();
+
         // Tell Laravel to load controller routes
         RouteFacade::directory(__DIR__ . '/../../src/Test/Controller');
 
         // Get routes loaded into Laravel
         $routes = RouteFacade::getRoutes()->getRoutesByName();
 
-        $this->assertCount(28, $routes);
+        $this->assertCount(28 + $existingRouteCount, $routes);
 
         $this->assertArrayHasKey('simple.home', $routes);
         $this->assertArrayHasKey('simple.list', $routes);

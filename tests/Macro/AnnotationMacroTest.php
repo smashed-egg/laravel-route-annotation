@@ -43,13 +43,16 @@ class AnnotationMacroTest extends TestCase
 
     public function testAnnotationMacroLoadsRoutesCorrectly()
     {
+        // We have to count existing routes as a storage route it added in Laravel 12
+        $existingRouteCount = $this->countExistingRoutes();
+
         // Tell Laravel to load controller routes
         RouteFacade::annotation(SimpleController::class);
 
         // Get routes loaded into Laravel
         $routes = RouteFacade::getRoutes()->getRoutesByName();
 
-        $this->assertCount(4, $routes);
+        $this->assertCount(4 + $existingRouteCount, $routes);
 
         $this->assertArrayHasKey('simple.home', $routes);
         $this->assertArrayHasKey('simple.list', $routes);
@@ -64,13 +67,16 @@ class AnnotationMacroTest extends TestCase
 
     public function testAnnotationMacroLoadsResourceRoutesCorrectly()
     {
+        // We have to count existing routes as a storage route it added in Laravel 12
+        $existingRouteCount = $this->countExistingRoutes();
+
         // Tell Laravel to load controller routes
         RouteFacade::annotation(ResourceController::class);
 
         // Get routes loaded into Laravel
         $routes = RouteFacade::getRoutes()->getRoutesByName();
 
-        $this->assertCount(7, $routes);
+        $this->assertCount(7 + $existingRouteCount, $routes);
 
         $this->assertArrayHasKey('photos.index', $routes);
         $this->assertArrayHasKey('photos.create', $routes);
@@ -82,13 +88,16 @@ class AnnotationMacroTest extends TestCase
 
     public function testAnnotationMacroLoadsApiResourceRoutesCorrectly()
     {
+        // We have to count existing routes as a storage route it added in Laravel 12
+        $existingRouteCount = $this->countExistingRoutes();
+
         // Tell Laravel to load controller routes
         RouteFacade::annotation(ApiResourceController::class);
 
         // Get routes loaded into Laravel
         $routes = RouteFacade::getRoutes()->getRoutesByName();
 
-        $this->assertCount(5, $routes);
+        $this->assertCount(5 + $existingRouteCount, $routes);
 
         $this->assertArrayHasKey('reports.player.index', $routes);
         $this->assertArrayHasKey('reports.player.store', $routes);
@@ -99,6 +108,9 @@ class AnnotationMacroTest extends TestCase
 
     public function testAnnotationMacroLoadsRoutesCorrectlyInsideARouteGroup()
     {
+        // We have to count existing routes as a storage route it added in Laravel 12
+        $existingRouteCount = $this->countExistingRoutes();
+
         RouteFacade::middleware('web')->scopeBindings()->prefix('/app')->as('app.')->group(function() {
             RouteFacade::annotation(SimpleController::class);
         });
@@ -113,7 +125,7 @@ class AnnotationMacroTest extends TestCase
         // Get routes loaded into Laravel
         $routes = RouteFacade::getRoutes()->getRoutesByName();
 
-        $this->assertCount(4, $routes);
+        $this->assertCount(4 + $existingRouteCount, $routes);
 
         $this->assertArrayHasKey('app.simple.home', $routes);
         $this->assertArrayHasKey('app.simple.list', $routes);
@@ -121,6 +133,12 @@ class AnnotationMacroTest extends TestCase
         $this->assertArrayHasKey('app.simple.edit', $routes);
 
         foreach ($routes as $name => $route) {
+
+            // We don't care about existing routes
+            if ( ! isset($expectedUriMap[$name])) {
+                continue;
+            }
+
             $this->assertSame(['web'], $route->gatherMiddleware());
             $this->assertEquals($expectedUriMap[$name], $route->uri());
             $this->assertTrue($route->enforcesScopedBindings());
