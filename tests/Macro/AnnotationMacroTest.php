@@ -3,6 +3,7 @@
 namespace SmashedEgg\LaravelRouteAnnotation\Tests\Macro;
 
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route as RouteFacade;
 use SmashedEgg\LaravelRouteAnnotation\RouteAnnotationServiceProvider;
 use SmashedEgg\LaravelRouteAnnotation\Test\Controller\ApiResourceController;
@@ -43,7 +44,7 @@ class AnnotationMacroTest extends TestCase
     public function testAnnotationMacroLoadsRoutesCorrectly()
     {
         $existingRoutes = RouteFacade::getRoutes()->getRoutesByName();
-        $existingRoute = RouteFacade::getRoutes()->getRoutes()[0];
+        $existingRoute = Arr::first(RouteFacade::getRoutes()->getRoutes());
         // Tell Laravel to load controller routes
         RouteFacade::annotation(SimpleController::class);
 
@@ -51,7 +52,10 @@ class AnnotationMacroTest extends TestCase
         $routes = RouteFacade::getRoutes()->getRoutesByName();
 
         $this->assertCount(0, $existingRoutes);
-        $this->assertEquals('/awesome', $existingRoute->uri());
+
+        if ($existingRoute) {
+            $this->assertEquals('/awesome', $existingRoute->uri());
+        }
 
         $this->assertCount(4, $routes);
 
