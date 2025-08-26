@@ -52,6 +52,8 @@ class AnnotationMacroTest extends TestCase
         $this->assertCount(0, $existingRoutes);
         $this->assertCount(4, $routes);
 
+        var_dump($routes);
+
         $this->assertArrayHasKey('simple.home', $routes);
         $this->assertArrayHasKey('simple.list', $routes);
         $this->assertArrayHasKey('simple.create', $routes);
