@@ -2,6 +2,12 @@
 
 v0.X.0 - TBD
 
+v0.6.0
+- Add Laravel 11 and 12 support
+- Update unit tests to account for Laravel 12 adding a route for storage/{path}
+
+v0.5.0
+- Correct documentation
 
 v0.4.0
 - Add support for route priority (https://symfony.com/doc/current/routing.html#priority-parameter)
