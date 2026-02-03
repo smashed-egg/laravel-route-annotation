@@ -2,6 +2,9 @@
 
 v0.X.0 - TBD
 
+v0.7.0
+- Add PHP 8.5 support
+
 v0.6.0
 - Add Laravel 11 and 12 support
 - Update unit tests to account for Laravel 12 adding a route for storage/{path}
