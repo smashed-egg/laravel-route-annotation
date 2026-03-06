@@ -2,6 +2,9 @@
 
 v0.X.0 - TBD
 
+v0.8.0
+- Add Laravel 13 support
+
 v0.7.0
 - Add PHP 8.5 support
 
